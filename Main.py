@@ -16,25 +16,20 @@ class Main(object):
         self._faceDetecter._managerTrigger.addHandler(self._pedistanManager.updatePedestrian)
         self._pedistanManager._serviceTrigger.addHandler(self._dataService.dataReceiver)
 
-    def __init__(self):
+    def __init__(self):        
         
+        self.connectHandler()
+        result = self._faceDetecter.InitiVideoStreamer()
+        if result:
+            self._faceDetecter.runStreamer()
+        else:
+            print("Video Streamer Failed to Initiate")
+    
         try:
-            self.connectHandler()
-            result = self._faceDetecter.InitiVideoStreamer()
-            if result:
-                self._faceDetecter.runStreamer()
-            else:
-                print("Video Streamer Failed to Initiate")
-            
-            while(True):
-                
-                frame = self._faceDetecter.runStreamer()
-                
-                cv2.imshow("Frame", frame)
+            while(self._faceDetecter._stop == False):
+                frame = self._faceDetecter.runStreamer()    
+                cv2.imshow("Frame", frame)           
                 key = cv2.waitKey(1) & 0xFF
-                
-                if key == ord("c"):
-                    break
 
         except KeyboardInterrupt:
             self._faceDetecter.stopStreamer()

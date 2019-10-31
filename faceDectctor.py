@@ -22,22 +22,20 @@ class FaceDetector(object):
         return True
 
     def runStreamer(self):
-        
+
         frame = self._streamer.read()
         frame = imutils.resize(frame, width=400)
     
         # grab the frame dimensions and convert it to a blob
         (h, w) = frame.shape[:2]
-        blob = cv2.dnn.blobFromImage(cv2.resize(frame, (300, 300)), 1.0,
-            (300, 300), (104.0, 177.0, 123.0))
+        blob = cv2.dnn.blobFromImage(cv2.resize(frame, (300, 300)), 1.0,(300, 300), (104.0, 177.0, 123.0))
     
         # pass the blob through the network and obtain the detections and
         # predictions
         self._net.setInput(blob)
         detections = self._net.forward()
 
-        if len(detections) > 0:
-            self._managerTrigger.fire(count=len(detections))
+        faces = 0
 
         # loop over the detections
         for i in range(0, detections.shape[2]):
@@ -49,6 +47,8 @@ class FaceDetector(object):
             # greater than the minimum confidence
             if confidence < 0.4:
                 continue
+            else:
+                faces += 1
 
             # compute the (x, y)-coordinates of the bounding box for the
             # object
@@ -59,21 +59,18 @@ class FaceDetector(object):
             # probability
             text = "{:.2f}%".format(confidence * 100)
             y = startY - 10 if startY - 10 > 10 else startY + 10
-            cv2.rectangle(frame, (startX, startY), (endX, endY),
-                (0, 0, 255), 2)
-            cv2.putText(frame, text, (startX, y),
-                cv2.FONT_HERSHEY_SIMPLEX, 0.45, (0, 0, 255), 2)
+            cv2.rectangle(frame, (startX, startY), (endX, endY),(0, 0, 255), 2)
+            cv2.putText(frame, text, (startX, y),cv2.FONT_HERSHEY_SIMPLEX, 0.45, (0, 0, 255), 2)
+        
+        self._managerTrigger.fire(count=faces)
 
         return frame
             
-
     def stopStreamer(self):
         print("In stop")
         self._stop = False
         cv2.destroyAllWindows()
         self._streamer.stop()
-
-
 
 
 
