@@ -1,0 +1,10 @@
+{
+    "SignalDetails" : {
+        "Id" : "SIG123455",
+        "Location" : "Dame Street"
+    },
+    "Timer" : {
+        "Green" : 10,
+        "Red" : 5
+    }
+}

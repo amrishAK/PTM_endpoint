@@ -5,7 +5,6 @@ import imutils
 import time
 from Handler.eventHook import EventHook
 
-
 class FaceDetector(object):
 
     _managerTrigger = EventHook() 

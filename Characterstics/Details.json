@@ -1,0 +1,23 @@
+{
+
+    "SignalDetails" : {
+        "Id" : "SIG146548",
+        "Location" : "Dame Street"
+    },
+    "Timer" : {
+        "Green" : 10,
+        "Red" : 5
+    },
+    "otherSignals" : {
+        "SIG123455" : {
+            "possibleTraffic" : 35.0,
+            "Latency" : 180,
+            "CurrentDensity" : 0
+        },
+        "SIG74586" : {
+            "possibleTraffic" : 55.0,
+            "Latency" : 45,
+            "CurrentDensity" : 0
+        }
+    }
+}
